@@ -1,0 +1,18 @@
+.tabContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabName {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #b8a080;
+  letter-spacing: 0.06em;
+  border: 1.5px dashed #cdb98a;
+  padding: 16px 40px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.45);
+}
