@@ -1,0 +1,90 @@
+/* ── Root layout ── */
+.layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #f2ece3;
+  overflow: hidden;
+}
+
+/* ── Step navigation bar ── */
+.stepBar {
+  flex-shrink: 0;
+  height: 68px;
+  background: rgba(45, 25, 10, 0.84);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(201, 168, 124, 0.15);
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 10;
+}
+
+/* ── Body: canvas + optional side panel ── */
+.body {
+  flex: 1;
+  display: flex;
+  min-height: 0; /* prevent flex overflow */
+  position: relative;
+}
+
+/* ── Three.js canvas placeholder ── */
+.canvasArea {
+  flex: 1;
+  background: #f2ece3;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Zone side panel (steps 3 & 4) ── */
+.zonePanel {
+  flex-shrink: 0;
+  width: 240px;
+  background: rgba(250, 248, 244, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-left: 1px solid rgba(139, 111, 71, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* ── Decoration overlay layer (step 5) ── */
+.decoLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* let clicks pass through to BinderCanvas */
+  z-index: 5;
+}
+
+/* Individual deco items re-enable pointer events */
+.decoLayer > * {
+  pointer-events: all;
+}
+
+/* ── Floating bottom option panel ── */
+.optionPanel {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(250, 248, 244, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(139, 111, 71, 0.2);
+  border-radius: 16px;
+  padding: 20px 48px;
+  min-width: 540px;
+  max-width: min(860px, 90vw);
+  box-shadow:
+    0 4px 24px rgba(45, 25, 10, 0.1),
+    0 1px 4px rgba(45, 25, 10, 0.08);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88px;
+}

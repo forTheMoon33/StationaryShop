@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm create *)",
       "Bash(npm install *)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(npm run *)",
+      "Bash(node --input-type=module --eval ' *)"
     ]
   }
 }

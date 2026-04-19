@@ -1,0 +1,126 @@
+/* ── Outer nav row ── */
+.nav {
+  display: flex;
+  align-items: flex-start;   /* align to top so connectors can sit mid-circle */
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ── Each step slot: connector + column ── */
+.item {
+  display: contents; /* flatten into nav's flex context */
+}
+
+/* ── Vertical column: circle + label ── */
+.stepCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+/* ── Horizontal connector line ── */
+.connector {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  /* Vertically center on the circle (circle is 34px tall) */
+  margin-top: 16px;   /* (34px / 2) - (2px / 2) = 16px */
+  border-radius: 1px;
+  transition: background 0.3s ease;
+}
+
+.connectorDone {
+  background: #8B6F47;
+}
+
+/* ── Circle button ── */
+.circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: transparent;
+  color: inherit;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    color 0.22s ease;
+}
+
+/* number inside future / active circle */
+.num {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ── State: completed ── */
+.completed {
+  background: #8B6F47;
+  border-color: #8B6F47;
+  color: #fff;
+  cursor: pointer;
+}
+
+.completed:hover {
+  background: #9e7d52;
+  border-color: #9e7d52;
+}
+
+/* ── State: active ── */
+.active {
+  background: rgba(139, 111, 71, 0.12);
+  border-color: #c9a87c;
+  color: #c9a87c;
+  cursor: default;
+  box-shadow:
+    0 0 0 3px rgba(139, 111, 71, 0.2),
+    0 0 14px rgba(201, 168, 124, 0.35);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+/* ── State: future ── */
+.future {
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* ── Labels ── */
+.label {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #e8d5b0;
+  white-space: nowrap;
+  transition: color 0.22s ease;
+}
+
+.labelFuture {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Glow pulse animation ── */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 3px rgba(139, 111, 71, 0.2),
+      0 0 14px rgba(201, 168, 124, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px rgba(139, 111, 71, 0.28),
+      0 0 22px rgba(201, 168, 124, 0.5);
+  }
+}

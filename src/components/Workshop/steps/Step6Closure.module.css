@@ -1,0 +1,130 @@
+/* ── Outer wrapper ── */
+.container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ── Three category groups ── */
+.categories {
+  display: flex;
+  gap: 18px;
+}
+
+/* ── Single category column ── */
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.catLabel {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8B6F47;
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Option pair row ── */
+.options {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Individual option card ── */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 10px 8px;
+  border: 1.5px solid rgba(139, 111, 71, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+
+.card:hover {
+  border-color: rgba(139, 111, 71, 0.48);
+  background: rgba(255, 255, 255, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 111, 71, 0.1);
+}
+
+.card:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 2px;
+}
+
+.cardSelected {
+  border-color: #8B6F47;
+  background: rgba(139, 111, 71, 0.08);
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 3px rgba(139, 111, 71, 0.14),
+    0 4px 12px rgba(139, 111, 71, 0.1);
+}
+
+.cardSelected:hover {
+  background: rgba(139, 111, 71, 0.11);
+}
+
+/* ── Option label ── */
+.optLabel {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.63rem;
+  font-weight: 500;
+  color: #5a3e28;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ── Divider between category groups ── */
+.category + .category {
+  border-left: 1px solid rgba(139, 111, 71, 0.14);
+  padding-left: 18px;
+}
+
+/* ── Next button ── */
+.nextBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  background: #8B6F47;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.12s ease;
+}
+
+.nextBtn:hover:not(:disabled) {
+  background: #7a6040;
+  transform: translateX(2px);
+}
+
+.nextBtn:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 3px;
+}
+
+.nextBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

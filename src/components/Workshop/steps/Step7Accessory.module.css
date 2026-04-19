@@ -1,0 +1,108 @@
+/* ── Outer wrapper ── */
+.container {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+/* ── Card pair ── */
+.cards {
+  display: flex;
+  gap: 16px;
+}
+
+/* ── Option card ── */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 24px 14px;
+  border: 1.5px solid rgba(139, 111, 71, 0.22);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  font-family: inherit;
+  min-width: 110px;
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.13s ease;
+}
+
+.card:hover {
+  border-color: rgba(139, 111, 71, 0.48);
+  background: rgba(255, 255, 255, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(139, 111, 71, 0.12);
+}
+
+.card:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 2px;
+}
+
+.cardSelected {
+  border-color: #8B6F47;
+  background: rgba(139, 111, 71, 0.08);
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 3px rgba(139, 111, 71, 0.15),
+    0 4px 16px rgba(139, 111, 71, 0.12);
+}
+
+.cardSelected:hover {
+  background: rgba(139, 111, 71, 0.11);
+}
+
+/* ── Labels ── */
+.optLabel {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #3d2b1a;
+  letter-spacing: 0.02em;
+}
+
+.optDesc {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.64rem;
+  color: #a08060;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* ── Complete button ── */
+.finishBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background: #8B6F47;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.12s ease;
+}
+
+.finishBtn:hover:not(:disabled) {
+  background: #7a6040;
+  transform: translateX(2px);
+}
+
+.finishBtn:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 3px;
+}
+
+.finishBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

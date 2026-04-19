@@ -1,0 +1,142 @@
+/* ── Outer wrapper ── */
+.container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ── Drag hint text ── */
+.hint {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: #a08060;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Palette row ── */
+.palette {
+  display: flex;
+  gap: 16px;
+}
+
+/* ── Single palette item: card + label + badge ── */
+.paletteItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+/* ── The draggable card ── */
+.dragCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border: 1.5px solid rgba(139, 111, 71, 0.25);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: grab;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.12s ease,
+    box-shadow 0.15s ease;
+}
+
+.dragCard:hover {
+  border-color: rgba(139, 111, 71, 0.5);
+  background: rgba(255, 255, 255, 0.82);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(139, 111, 71, 0.14);
+}
+
+.dragCard:active {
+  cursor: grabbing;
+  transform: scale(0.96);
+}
+
+/* ── Palette label ── */
+.paletteLabel {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #5a3e28;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* ── Placement count badge ── */
+.badge {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #fff;
+  background: #8B6F47;
+  border-radius: 20px;
+  padding: 1px 7px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Action buttons ── */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+/* ── Clear all ── */
+.clearBtn {
+  padding: 7px 14px;
+  background: transparent;
+  color: #a06040;
+  border: 1.5px solid rgba(160, 96, 64, 0.35);
+  border-radius: 7px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.clearBtn:hover {
+  background: rgba(160, 96, 64, 0.08);
+  border-color: rgba(160, 96, 64, 0.6);
+  color: #8a4828;
+}
+
+/* ── Next button ── */
+.nextBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 20px;
+  background: #8B6F47;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+
+.nextBtn:hover {
+  background: #7a6040;
+  transform: translateX(2px);
+}
+
+.nextBtn:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 3px;
+}

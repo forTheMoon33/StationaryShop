@@ -1,0 +1,139 @@
+/* ── Outer wrapper ── */
+.container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ── Zone hint text ── */
+.hint {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.72rem;
+  color: #8B6F47;
+  font-style: italic;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.hintZone {
+  font-weight: 700;
+  font-style: normal;
+  color: #5a3e28;
+}
+
+/* ── Material card row ── */
+.materials {
+  display: flex;
+  gap: 10px;
+}
+
+/* ── Individual material card ── */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px 9px;
+  border: 1.5px solid rgba(139, 111, 71, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.13s ease;
+}
+
+.card:hover:not(.cardDisabled) {
+  border-color: rgba(139, 111, 71, 0.5);
+  background: rgba(255, 255, 255, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(139, 111, 71, 0.1);
+}
+
+.card:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 2px;
+}
+
+.cardSelected {
+  border-color: #8B6F47;
+  background: rgba(139, 111, 71, 0.08);
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 3px rgba(139, 111, 71, 0.15),
+    0 4px 14px rgba(139, 111, 71, 0.1);
+}
+
+.cardSelected:hover {
+  background: rgba(139, 111, 71, 0.1);
+}
+
+.cardDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── SVG texture swatch ── */
+.swatch {
+  display: block;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+/* ── Labels ── */
+.labelCn {
+  font-family: 'Noto Serif SC', 'Lora', Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3d2b1a;
+  line-height: 1;
+}
+
+.labelEn {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.6rem;
+  color: #a08060;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ── Next button ── */
+.nextBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  background: #8B6F47;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background 0.16s ease,
+    opacity 0.16s ease,
+    transform 0.13s ease;
+}
+
+.nextBtn:hover:not(:disabled) {
+  background: #7a6040;
+  transform: translateX(2px);
+}
+
+.nextBtn:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 3px;
+}
+
+.nextBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

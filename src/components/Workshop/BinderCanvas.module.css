@@ -1,0 +1,14 @@
+/* Fill the canvasArea completely */
+.mount {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+/* The renderer appends a <canvas> child — make sure it fills the div */
+.mount > canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
