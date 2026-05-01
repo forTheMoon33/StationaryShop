@@ -7,7 +7,7 @@ import Step1Size from '../../components/Workshop/steps/Step1Size'
 import Step2Zones from '../../components/Workshop/steps/Step2Zones'
 import Step3Material from '../../components/Workshop/steps/Step3Material'
 import Step4Color from '../../components/Workshop/steps/Step4Color'
-import Step5Decoration, { FlowerIcon, ButtonIcon } from '../../components/Workshop/steps/Step5Decoration'
+import Step5Decoration from '../../components/Workshop/steps/Step5Decoration'
 import Step6Closure from '../../components/Workshop/steps/Step6Closure'
 import Step7Accessory from '../../components/Workshop/steps/Step7Accessory'
 import styles from './Workshop.module.css'
@@ -28,8 +28,6 @@ const MATERIAL_LABELS = {
   leather: '真皮', pvc: '透明PVC', canvas: '帆布', pu: 'PU革',
 }
 
-const DECO_ICONS = { flower: FlowerIcon, button: ButtonIcon }
-
 const STEP_COMPONENTS = {
   1: Step1Size, 2: Step2Zones, 3: Step3Material,
   4: Step4Color, 5: Step5Decoration, 6: Step6Closure, 7: Step7Accessory,
@@ -38,15 +36,17 @@ const STEP_COMPONENTS = {
 export default function Workshop() {
   const [currentStep, setCurrentStep]       = useState(1)
   const [completedSteps, setCompletedSteps] = useState(new Set())
+  const [completed, setCompleted]           = useState(false)
 
   const [selectedSize, setSelectedSize]           = useState('A6')
   const [zones, setZones]                         = useState([])
   const [selectedZoneIndex, setSelectedZoneIndex] = useState(null)
   const [zoneMaterials, setZoneMaterials]         = useState({})
   const [zoneColors, setZoneColors]               = useState({})
+  // Each decoration: { id, type, pos: { x, y, z } } — pos is a world-space
+  // point on the front cover face, obtained via raycasting in BinderCanvas.
   const [decorations, setDecorations]             = useState([])
 
-  // Combined zones prop for BinderCanvas — stable reference via useMemo
   const binderZones = useMemo(() =>
     zones.map((zone, i) => ({
       ...zone,
@@ -56,7 +56,7 @@ export default function Workshop() {
     [zones, zoneMaterials, zoneColors],
   )
 
-  const canvasRef    = useRef(null)
+  const canvasRef     = useRef(null)
   const showZonePanel = ZONE_PANEL_STEPS.has(currentStep)
 
   // ── Navigation ──────────────────────────────────────────
@@ -66,7 +66,11 @@ export default function Workshop() {
 
   function advance() {
     setCompletedSteps(prev => new Set([...prev, currentStep]))
-    if (currentStep < 7) setCurrentStep(prev => prev + 1)
+    if (currentStep < 7) {
+      setCurrentStep(prev => prev + 1)
+    } else {
+      setCompleted(true)
+    }
   }
 
   // ── Step callbacks ───────────────────────────────────────
@@ -85,22 +89,14 @@ export default function Workshop() {
     setZoneColors(prev => ({ ...prev, [index]: color }))
   }
 
+  // Fix 2 — drop handler uses raycasting to place decoration on the 3-D cover face.
   function handleCanvasDrop(e) {
     e.preventDefault()
     const type = e.dataTransfer.getData('deco-type')
-    if (!type || !DECO_ICONS[type]) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    setDecorations(prev => [...prev, { id: Date.now(), type, x, y }])
-  }
-
-  function handleDecorationMove(id, x, y) {
-    setDecorations(prev => prev.map(d => d.id === id ? { ...d, x, y } : d))
-  }
-
-  function handleDecorationRemove(id) {
-    setDecorations(prev => prev.filter(d => d.id !== id))
+    if (!type) return
+    const pos = canvasRef.current?.dropToFace(e.clientX, e.clientY)
+    if (!pos) return   // dropped outside the front cover face
+    setDecorations(prev => [...prev, { id: Date.now(), type, pos }])
   }
 
   // ── ZonePanel assignments ────────────────────────────────
@@ -122,7 +118,10 @@ export default function Workshop() {
 
   // ── Per-step props ───────────────────────────────────────
   const stepProps = {
-    1: { onSelect: s => setSelectedSize(s.id), onNext: advance },
+    1: {
+      onSelect: s => { setSelectedSize(s.id); setDecorations([]) },
+      onNext: advance,
+    },
     2: { onZonesConfirm: handleZonesConfirm, onNext: advance },
     3: {
       zones, selectedZoneIndex,
@@ -160,21 +159,13 @@ export default function Workshop() {
           onDragOver={currentStep === 5 ? e => e.preventDefault() : undefined}
           onDrop={currentStep === 5 ? handleCanvasDrop : undefined}
         >
-          <BinderCanvas ref={canvasRef} size={selectedSize} zones={binderZones} />
-
-          {decorations.length > 0 && (
-            <div className={styles.decoLayer}>
-              {decorations.map(d => (
-                <DecorationOverlay
-                  key={d.id}
-                  deco={d}
-                  icons={DECO_ICONS}
-                  onMove={handleDecorationMove}
-                  onRemove={handleDecorationRemove}
-                />
-              ))}
-            </div>
-          )}
+          <BinderCanvas
+            ref={canvasRef}
+            size={selectedSize}
+            zones={binderZones}
+            decorations={decorations}
+            completed={completed}
+          />
         </div>
 
         {showZonePanel && (
@@ -189,80 +180,12 @@ export default function Workshop() {
         )}
       </div>
 
-      <div className={styles.optionPanel}>
-        <OptionPanel currentStep={currentStep} zones={binderZones}>
-          <ActiveStep canvasRef={canvasRef} {...stepProps[currentStep]} />
-        </OptionPanel>
-      </div>
-    </div>
-  )
-}
-
-// ── Decoration overlay (portaled into canvasArea) ────────────────────────────
-function DecorationOverlay({ deco, icons, onMove, onRemove }) {
-  const [hovered, setHovered] = useState(false)
-  const isDragging  = useRef(false)
-  const layerRect   = useRef(null)
-  const Icon = icons[deco.type]
-
-  function handlePointerDown(e) {
-    if (e.button !== 0) return
-    e.preventDefault()
-    isDragging.current = true
-    // parent is .decoLayer which is inset:0 inside canvasArea — same bounding rect
-    layerRect.current = e.currentTarget.parentElement.getBoundingClientRect()
-    e.currentTarget.setPointerCapture(e.pointerId)
-  }
-
-  function handlePointerMove(e) {
-    if (!isDragging.current) return
-    const { left, top, width, height } = layerRect.current
-    const x = Math.max(2, Math.min(98, ((e.clientX - left) / width) * 100))
-    const y = Math.max(2, Math.min(96, ((e.clientY - top)  / height) * 100))
-    onMove(deco.id, x, y)
-  }
-
-  function handlePointerUp(e) {
-    isDragging.current = false
-    e.currentTarget.releasePointerCapture(e.pointerId)
-  }
-
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        left: `${deco.x}%`,
-        top:  `${deco.y}%`,
-        transform: 'translate(-50%, -50%)',
-        cursor: 'grab',
-        userSelect: 'none',
-        touchAction: 'none',
-        filter: 'drop-shadow(0 2px 8px rgba(45,25,10,0.28))',
-      }}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {Icon && <Icon size={36} />}
-
-      {hovered && (
-        <button
-          style={{
-            position: 'absolute', top: -9, right: -9,
-            width: 18, height: 18, borderRadius: '50%',
-            background: '#b03020', color: '#fff',
-            border: '1.5px solid #fff', fontSize: 12, fontWeight: 700,
-            lineHeight: 1, cursor: 'pointer', padding: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.22)',
-          }}
-          onClick={e => { e.stopPropagation(); onRemove(deco.id) }}
-          onPointerDown={e => e.stopPropagation()}
-        >
-          ×
-        </button>
+      {!completed && (
+        <div className={styles.optionPanel}>
+          <OptionPanel currentStep={currentStep} zones={binderZones}>
+            <ActiveStep canvasRef={canvasRef} {...stepProps[currentStep]} />
+          </OptionPanel>
+        </div>
       )}
     </div>
   )
