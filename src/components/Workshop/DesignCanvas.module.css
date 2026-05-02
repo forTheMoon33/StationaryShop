@@ -1,0 +1,11 @@
+.container {
+  position: absolute;
+  inset: 0;
+  /* pointer-events are handled by the canvas element */
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

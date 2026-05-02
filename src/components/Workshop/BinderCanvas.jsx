@@ -3,6 +3,16 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import styles from './BinderCanvas.module.css'
 
+// Maps face IDs to the mesh name used in buildBinderOpen
+const FACE_MESH = {
+  'exterior-right': 'front-cover',
+  'exterior-left':  'back-cover',
+  'spine-exterior': 'spine',
+  'interior-right': 'front-cover',
+  'interior-left':  'back-cover',
+  'spine-interior': 'spine',
+}
+
 // ── Units: 1 Three.js unit = 50 mm ───────────────────────────────────────────
 const MM = 1 / 50
 
@@ -31,7 +41,7 @@ function a6Rings() {
 }
 
 // ── Size configuration — add a 'custom' entry here to support custom sizes ────
-const SIZE_CONFIG = {
+export const SIZE_CONFIG = {
   A7: { h: 2.10, coverW: 1.54, spineW: 0.36, ringPositions: uniformRings(6) },
   A6: { h: 2.96, coverW: 2.10, spineW: 0.40, ringPositions: a6Rings()       },
   M5: { h: 2.56, coverW: 1.60, spineW: 0.36, ringPositions: uniformRings(5) },
@@ -333,6 +343,41 @@ const BinderCanvas = forwardRef(function BinderCanvas(
       if (!hits.length) return null
       const { x, y, z } = hits[0].point
       return { x, y, z }
+    },
+
+    // Apply a 2D canvas as a texture to the Three.js mesh for a given face.
+    updateFaceTexture(faceId, canvas) {
+      const group = binderGroupRef.current
+      if (!group) return
+      const meshName = FACE_MESH[faceId]
+      if (!meshName) return
+      const mesh = group.children.find(c => c.name === meshName)
+      if (!mesh || !mesh.material) return
+
+      if (!mesh._designTextures) mesh._designTextures = {}
+      if (!mesh._designTextures[faceId]) {
+        const tex = new THREE.CanvasTexture(canvas)
+        tex.flipY = false
+        mesh._designTextures[faceId] = tex
+      } else {
+        mesh._designTextures[faceId].needsUpdate = true
+      }
+
+      // Apply exterior texture (faceId contains 'exterior' or is a spine/interior).
+      // For simplicity we apply to the main material map; interior textures show
+      // on the mesh when orbited to the back.
+      const tex = mesh._designTextures[faceId]
+      if (!mesh.material.map || mesh.material.map !== tex) {
+        // Only override with exterior textures in normal view; interior textures
+        // are stored and accessible but not forced over exterior ones.
+        if (!faceId.includes('interior') ||
+            !mesh._designTextures[faceId.replace('interior', 'exterior')]) {
+          mesh.material.map = tex
+          mesh.material.needsUpdate = true
+        }
+      } else {
+        mesh.material.needsUpdate = true
+      }
     },
   }))
 

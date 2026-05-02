@@ -1,0 +1,51 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 14px 20px;
+  gap: 6px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #a08060;
+  margin: 0 0 10px;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tab {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid rgba(139, 111, 71, 0.22);
+  border-radius: 8px;
+  padding: 11px 14px;
+  text-align: left;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.83rem;
+  color: #5a3e28;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  width: 100%;
+}
+
+.tab:hover {
+  background: rgba(139, 111, 71, 0.07);
+  border-color: rgba(139, 111, 71, 0.42);
+}
+
+.active {
+  background: rgba(139, 111, 71, 0.11);
+  border-color: #8B6F47;
+  color: #4a2e10;
+  box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.13);
+  font-weight: 600;
+}

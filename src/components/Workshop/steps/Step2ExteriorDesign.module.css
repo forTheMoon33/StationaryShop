@@ -1,0 +1,157 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* ── Tool strip ── */
+.tools {
+  display: flex;
+  gap: 6px;
+}
+
+.toolBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.55);
+  border: 1.5px solid rgba(139,111,71,0.22);
+  border-radius: 8px;
+  color: #5a3e28;
+  cursor: pointer;
+  transition: all 0.13s ease;
+  min-width: 50px;
+}
+
+.toolBtn:hover {
+  background: rgba(139,111,71,0.07);
+  border-color: rgba(139,111,71,0.40);
+}
+
+.toolActive {
+  background: rgba(139,111,71,0.12);
+  border-color: #8B6F47;
+  color: #4a2e10;
+  box-shadow: 0 0 0 2px rgba(139,111,71,0.14);
+}
+
+.toolLabel {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.66rem;
+  white-space: nowrap;
+}
+
+/* ── Props panel ── */
+.props {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.propGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.propLabel {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #a08060;
+  white-space: nowrap;
+}
+
+.colorInput {
+  width: 30px;
+  height: 24px;
+  padding: 1px 2px;
+  border: 1.5px solid rgba(139,111,71,0.30);
+  border-radius: 5px;
+  cursor: pointer;
+  background: none;
+}
+
+.segmented {
+  display: flex;
+  border: 1.5px solid rgba(139,111,71,0.28);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.seg {
+  padding: 4px 8px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.68rem;
+  background: rgba(255,255,255,0.50);
+  border: none;
+  border-right: 1px solid rgba(139,111,71,0.20);
+  color: #5a3e28;
+  cursor: pointer;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+
+.seg:last-child { border-right: none; }
+
+.seg:hover { background: rgba(139,111,71,0.08); }
+
+.segActive {
+  background: rgba(139,111,71,0.16);
+  color: #3d2210;
+  font-weight: 600;
+}
+
+.deleteBtn {
+  padding: 4px 10px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.68rem;
+  background: rgba(180,60,60,0.08);
+  border: 1.5px solid rgba(180,60,60,0.28);
+  border-radius: 6px;
+  color: #a03030;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.deleteBtn:hover {
+  background: rgba(180,60,60,0.16);
+}
+
+.hint {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.78rem;
+  color: #a08060;
+  font-style: italic;
+  flex: 1;
+}
+
+/* ── Next button ── */
+.nextBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 20px;
+  background: #8B6F47;
+  color: #fff5e8;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.14s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.nextBtn:hover { background: #7a5e38; }

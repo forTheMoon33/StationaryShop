@@ -39,7 +39,7 @@
   overflow: hidden;
 }
 
-/* ── Zone side panel (steps 3 & 4) ── */
+/* ── Zone side panel (legacy) ── */
 .zonePanel {
   flex-shrink: 0;
   width: 240px;
@@ -50,6 +50,28 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+}
+
+/* ── Face selector panel (steps 2 & 3, left side) ── */
+.facePanel {
+  flex-shrink: 0;
+  width: 180px;
+  background: rgba(250, 248, 244, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(139, 111, 71, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+/* ── 2-D design canvas overlay (steps 2 & 3) ── */
+.designOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: auto;
 }
 
 /* ── Decoration overlay layer (step 5) ── */
